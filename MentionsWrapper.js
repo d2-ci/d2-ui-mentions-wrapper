@@ -19,7 +19,7 @@ var defaultState = {
     selectedUserIndex: 0
 };
 
-export var MentionsWrapper = function (_Component) {
+var MentionsWrapper = function (_Component) {
     _inherits(MentionsWrapper, _Component);
 
     function MentionsWrapper(props) {
