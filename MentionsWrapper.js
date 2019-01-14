@@ -48,7 +48,7 @@ var MentionsWrapper = function (_Component) {
 
             // '@' triggers the user lookup/suggestion
 
-            if (!_this.state.captureText && key === '@') {
+            if (!_this.state.captureText && key === '@' || event.type === 'mention') {
                 _this.setState({
                     element: element,
                     captureText: true,
@@ -140,10 +140,19 @@ var MentionsWrapper = function (_Component) {
         return _this;
     }
 
-    // event bubbles up from the wrapped input/textarea
-
-
     _createClass(MentionsWrapper, [{
+        key: 'componentDidMount',
+        value: function componentDidMount() {
+            var _this2 = this;
+
+            document.addEventListener('mention', function (e) {
+                return _this2.onKeyDown(e);
+            });
+        }
+
+        // event bubbles up from the wrapped input/textarea
+
+    }, {
         key: 'render',
         value: function render() {
             var children = this.props.children;
