@@ -3,6 +3,7 @@ import PropTypes from 'prop-types';
 import ListItemText from '@material-ui/core/ListItemText';
 import ListItem from '@material-ui/core/ListItem';
 import List from '@material-ui/core/List';
+import sortBy from 'lodash/sortBy';
 
 import Popover from '@material-ui/core/Popover';
 import Typography from '@material-ui/core/Typography';
@@ -71,7 +72,7 @@ export var UserList = function UserList(_ref) {
             null,
             React.createElement(
                 Typography,
-                { variant: 'subheading' },
+                { variant: 'subtitle1' },
                 React.createElement(
                     'em',
                     { className: classes.filter },
@@ -81,7 +82,9 @@ export var UserList = function UserList(_ref) {
             React.createElement(
                 List,
                 { dense: true, disablePadding: true, className: classes.list },
-                users.map(function (u) {
+                sortBy(users, [function (userName) {
+                    return userName.displayName.toLowerCase();
+                }]).map(function (u) {
                     return React.createElement(
                         ListItem,
                         {
