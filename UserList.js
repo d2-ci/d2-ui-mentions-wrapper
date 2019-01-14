@@ -53,10 +53,6 @@ export var UserList = function UserList(_ref) {
         };
     };
 
-    var sortedUsers = sortBy(users, [function (userName) {
-        return userName.displayName;
-    }]);
-
     return React.createElement(
         Popover,
         {
@@ -86,7 +82,9 @@ export var UserList = function UserList(_ref) {
             React.createElement(
                 List,
                 { dense: true, disablePadding: true, className: classes.list },
-                sortedUsers.map(function (u) {
+                sortBy(users, [function (userName) {
+                    return userName.displayName.toLowerCase();
+                }]).map(function (u) {
                     return React.createElement(
                         ListItem,
                         {
