@@ -30,7 +30,8 @@ var MentionsWrapper = function (_Component) {
         _this.lookupUser = function (query) {
             _this.props.d2.Api.getApi().get('users.json', {
                 query: query,
-                fields: 'id,displayName,userCredentials[username]'
+                fields: 'id,displayName,userCredentials[username]',
+                order: 'displayName:iasc'
             }).then(function (response) {
                 _this.setState({
                     users: response.users,
@@ -83,6 +84,7 @@ var MentionsWrapper = function (_Component) {
                             }
 
                             break;
+                        default:
                     }
                 }
             }
