@@ -10,7 +10,7 @@ import debounce from 'lodash/debounce';
 
 import UserListContainer from './UserList';
 
-var defaultState = {
+export var defaultState = {
     element: null,
     listIsOpen: false,
     captureText: false,
@@ -27,10 +27,23 @@ var MentionsWrapper = function (_Component) {
 
         var _this = _possibleConstructorReturn(this, (MentionsWrapper.__proto__ || _Object$getPrototypeOf(MentionsWrapper)).call(this, props));
 
-        _this.lookupUser = function (query) {
+        _this.reset = function () {
+            _this.state.element.removeEventListener('input', _this.onInput);
+
+            _this.setState(defaultState);
+        };
+
+        _this.onInput = function (event) {
+            _this.computeFilter(event.target);
+        };
+
+        _this.lookupUser = function () {
+            var query = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : '';
+
             _this.props.d2.Api.getApi().get('users.json', {
                 query: query,
-                fields: 'id,displayName,userCredentials[username]'
+                fields: 'id,displayName,userCredentials[username]',
+                order: 'displayName:iasc'
             }).then(function (response) {
                 _this.setState({
                     users: response.users,
@@ -39,24 +52,47 @@ var MentionsWrapper = function (_Component) {
             });
         };
 
+        _this.computeFilter = function (element) {
+            var selectionEnd = element.selectionEnd,
+                value = element.value;
+
+
+            if (_this.state.captureText) {
+                var spacePosition = value.indexOf(' ', _this.state.captureStartPosition - 1);
+
+                var filterValue = value.substring(_this.state.captureStartPosition, spacePosition > 0 ? spacePosition : selectionEnd + 1);
+
+                if (!filterValue || filterValue !== _this.state.capturedText) {
+                    _this.lookupUser(filterValue);
+
+                    _this.setState({ capturedText: filterValue });
+                } else if (filterValue.length === 0) {
+                    _this.setState({ capturedText: null, users: [] });
+                }
+            }
+        };
+
         _this.onKeyDown = function (event) {
             var key = event.key;
 
             var element = event.target;
-            var selectionStart = element.selectionStart,
-                selectionEnd = element.selectionEnd;
+            var selectionStart = element.selectionStart;
 
             // '@' triggers the user lookup/suggestion
 
-            if (!_this.state.captureText && key === '@' || event.type === 'mention') {
+            if (!_this.state.captureText && key === '@') {
+                element.addEventListener('input', _this.onInput);
+
                 _this.setState({
                     element: element,
                     captureText: true,
                     captureStartPosition: selectionStart + 1
                 });
+
+                _this.lookupUser();
             } else if (_this.state.captureText) {
                 if (key === ' ' || key === 'Backspace' && selectionStart <= _this.state.captureStartPosition) {
-                    _this.setState(defaultState);
+                    _this.reset();
                 } else if (_this.state.users.length) {
                     var selectedUserIndex = _this.state.selectedUserIndex;
 
@@ -83,39 +119,19 @@ var MentionsWrapper = function (_Component) {
                             }
 
                             break;
+                        default:
+                        // other key strokes, typically the text typed
+                        // the onInput event handler set on the input element is triggering the user lookup
                     }
                 }
             }
-
-            // this is to make sure the state has been updated
-            // otherwise the last character is not included in the captured text
-            // also debounce
-            setTimeout(function () {
-                if (_this.state.captureText) {
-                    var spacePosition = element.value.indexOf(' ', _this.state.captureStartPosition - 1);
-
-                    var filterValue = element.value.substring(_this.state.captureStartPosition, spacePosition > 0 ? spacePosition : selectionEnd + 1);
-
-                    if (!filterValue || filterValue !== _this.state.capturedText) {
-                        _this.lookupUser(filterValue);
-
-                        _this.setState({ capturedText: filterValue });
-                    } else if (filterValue.length === 0) {
-                        _this.setState({ capturedText: null, users: [] });
-                    }
-                }
-            }, 0);
-        };
-
-        _this.onUserListClose = function () {
-            _this.setState(defaultState);
         };
 
         _this.onUserSelect = function (user) {
             var originalValue = _this.state.element.value;
             var newValue = '' + originalValue.slice(0, _this.state.captureStartPosition - 1) + originalValue.slice(_this.state.captureStartPosition - 1).replace(/^@\w*/, '@' + user.userCredentials.username + ' ');
 
-            _this.setState(defaultState);
+            _this.reset();
 
             // typically for connected components we want the state to be updated too
             // but the logic belongs to the wrapped component, so we just invoke the supplied callback
@@ -140,19 +156,10 @@ var MentionsWrapper = function (_Component) {
         return _this;
     }
 
+    // event bubbles up from the wrapped input/textarea
+
+
     _createClass(MentionsWrapper, [{
-        key: 'componentDidMount',
-        value: function componentDidMount() {
-            var _this2 = this;
-
-            document.addEventListener('mention', function (e) {
-                return _this2.onKeyDown(e);
-            });
-        }
-
-        // event bubbles up from the wrapped input/textarea
-
-    }, {
         key: 'render',
         value: function render() {
             var children = this.props.children;
@@ -174,7 +181,7 @@ var MentionsWrapper = function (_Component) {
                     users: users,
                     selectedUser: users[selectedUserIndex],
                     filter: capturedText,
-                    onClose: this.onUserListClose,
+                    onClose: this.reset,
                     onSelect: this.onUserSelect
                 })
             );
