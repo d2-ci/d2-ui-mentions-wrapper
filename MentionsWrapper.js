@@ -1,16 +1,53 @@
-import _extends from 'babel-runtime/helpers/extends';
-import _Object$getPrototypeOf from 'babel-runtime/core-js/object/get-prototype-of';
-import _classCallCheck from 'babel-runtime/helpers/classCallCheck';
-import _createClass from 'babel-runtime/helpers/createClass';
-import _possibleConstructorReturn from 'babel-runtime/helpers/possibleConstructorReturn';
-import _inherits from 'babel-runtime/helpers/inherits';
-import React, { Component } from 'react';
-import PropTypes from 'prop-types';
-import debounce from 'lodash/debounce';
+'use strict';
 
-import UserListContainer from './UserList';
+Object.defineProperty(exports, "__esModule", {
+    value: true
+});
+exports.defaultState = undefined;
 
-export var defaultState = {
+var _extends2 = require('babel-runtime/helpers/extends');
+
+var _extends3 = _interopRequireDefault(_extends2);
+
+var _getPrototypeOf = require('babel-runtime/core-js/object/get-prototype-of');
+
+var _getPrototypeOf2 = _interopRequireDefault(_getPrototypeOf);
+
+var _classCallCheck2 = require('babel-runtime/helpers/classCallCheck');
+
+var _classCallCheck3 = _interopRequireDefault(_classCallCheck2);
+
+var _createClass2 = require('babel-runtime/helpers/createClass');
+
+var _createClass3 = _interopRequireDefault(_createClass2);
+
+var _possibleConstructorReturn2 = require('babel-runtime/helpers/possibleConstructorReturn');
+
+var _possibleConstructorReturn3 = _interopRequireDefault(_possibleConstructorReturn2);
+
+var _inherits2 = require('babel-runtime/helpers/inherits');
+
+var _inherits3 = _interopRequireDefault(_inherits2);
+
+var _react = require('react');
+
+var _react2 = _interopRequireDefault(_react);
+
+var _propTypes = require('prop-types');
+
+var _propTypes2 = _interopRequireDefault(_propTypes);
+
+var _debounce = require('lodash/debounce');
+
+var _debounce2 = _interopRequireDefault(_debounce);
+
+var _UserList = require('./UserList');
+
+var _UserList2 = _interopRequireDefault(_UserList);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+var defaultState = exports.defaultState = {
     element: null,
     listIsOpen: false,
     captureText: false,
@@ -20,12 +57,12 @@ export var defaultState = {
 };
 
 var MentionsWrapper = function (_Component) {
-    _inherits(MentionsWrapper, _Component);
+    (0, _inherits3.default)(MentionsWrapper, _Component);
 
     function MentionsWrapper(props) {
-        _classCallCheck(this, MentionsWrapper);
+        (0, _classCallCheck3.default)(this, MentionsWrapper);
 
-        var _this = _possibleConstructorReturn(this, (MentionsWrapper.__proto__ || _Object$getPrototypeOf(MentionsWrapper)).call(this, props));
+        var _this = (0, _possibleConstructorReturn3.default)(this, (MentionsWrapper.__proto__ || (0, _getPrototypeOf2.default)(MentionsWrapper)).call(this, props));
 
         _this.reset = function () {
             _this.state.element.removeEventListener('input', _this.onInput);
@@ -150,16 +187,16 @@ var MentionsWrapper = function (_Component) {
             }, 0);
         };
 
-        _this.state = _extends({}, defaultState, { users: [] });
+        _this.state = (0, _extends3.default)({}, defaultState, { users: [] });
 
-        _this.lookupUser = debounce(_this.lookupUser, 250);
+        _this.lookupUser = (0, _debounce2.default)(_this.lookupUser, 250);
         return _this;
     }
 
     // event bubbles up from the wrapped input/textarea
 
 
-    _createClass(MentionsWrapper, [{
+    (0, _createClass3.default)(MentionsWrapper, [{
         key: 'render',
         value: function render() {
             var children = this.props.children;
@@ -171,11 +208,11 @@ var MentionsWrapper = function (_Component) {
                 capturedText = _state.capturedText;
 
 
-            return React.createElement(
+            return _react2.default.createElement(
                 'div',
                 { onKeyDown: this.onKeyDown },
                 children,
-                React.createElement(UserListContainer, {
+                _react2.default.createElement(_UserList2.default, {
                     open: listIsOpen,
                     anchorEl: element,
                     users: users,
@@ -187,17 +224,16 @@ var MentionsWrapper = function (_Component) {
             );
         }
     }]);
-
     return MentionsWrapper;
-}(Component);
+}(_react.Component);
 
 MentionsWrapper.defaultProps = {
     d2: null
 };
 
 MentionsWrapper.propTypes = {
-    d2: PropTypes.object,
-    onUserSelect: PropTypes.func.isRequired
+    d2: _propTypes2.default.object,
+    onUserSelect: _propTypes2.default.func.isRequired
 };
 
-export default MentionsWrapper;
+exports.default = MentionsWrapper;
