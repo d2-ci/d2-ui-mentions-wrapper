@@ -1,9 +1,9 @@
 {
   "name": "@dhis2/d2-ui-mentions-wrapper",
-  "version": "5.0.0",
+  "version": "1.4.0",
   "description": "Mentions wrapper component for DHIS2",
-  "main": "./build/cjs/index.js",
-  "module": "./build/es/index.js",
+  "main": "./cjs/index.js",
+  "module": "./es/index.js",
   "license": "BSD-3-Clause",
   "author": "Edoardo Sabadelli <edoardo@dhis2.org>",
   "peerDependencies": {
@@ -46,5 +46,6 @@
     "@dhis2/d2-i18n-generate": "^1.0.18",
     "husky": "^1.0.0-rc.4",
     "prettier": "^1.12.1"
-  }
+  },
+  "private": false
 }
