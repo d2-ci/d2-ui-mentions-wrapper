@@ -1,15 +1,45 @@
-import React, { Fragment } from 'react';
-import PropTypes from 'prop-types';
-import ListItemText from '@material-ui/core/ListItemText';
-import ListItem from '@material-ui/core/ListItem';
-import List from '@material-ui/core/List';
-import sortBy from 'lodash/sortBy';
+'use strict';
 
-import Popover from '@material-ui/core/Popover';
-import Typography from '@material-ui/core/Typography';
-import { withStyles } from '@material-ui/core/styles';
+Object.defineProperty(exports, "__esModule", {
+    value: true
+});
+exports.UserList = undefined;
 
-import i18n from '@dhis2/d2-i18n';
+var _react = require('react');
+
+var _react2 = _interopRequireDefault(_react);
+
+var _propTypes = require('prop-types');
+
+var _propTypes2 = _interopRequireDefault(_propTypes);
+
+var _ListItemText = require('@material-ui/core/ListItemText');
+
+var _ListItemText2 = _interopRequireDefault(_ListItemText);
+
+var _ListItem = require('@material-ui/core/ListItem');
+
+var _ListItem2 = _interopRequireDefault(_ListItem);
+
+var _List = require('@material-ui/core/List');
+
+var _List2 = _interopRequireDefault(_List);
+
+var _Popover = require('@material-ui/core/Popover');
+
+var _Popover2 = _interopRequireDefault(_Popover);
+
+var _Typography = require('@material-ui/core/Typography');
+
+var _Typography2 = _interopRequireDefault(_Typography);
+
+var _styles = require('@material-ui/core/styles');
+
+var _d2I18n = require('@dhis2/d2-i18n');
+
+var _d2I18n2 = _interopRequireDefault(_d2I18n);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 var styles = function styles() {
     return {
@@ -32,7 +62,7 @@ var styles = function styles() {
     };
 };
 
-export var UserList = function UserList(_ref) {
+var UserList = exports.UserList = function UserList(_ref) {
     var classes = _ref.classes,
         open = _ref.open,
         anchorEl = _ref.anchorEl,
@@ -53,8 +83,8 @@ export var UserList = function UserList(_ref) {
         };
     };
 
-    return React.createElement(
-        Popover,
+    return _react2.default.createElement(
+        _Popover2.default,
         {
             open: open,
             anchorEl: anchorEl,
@@ -67,42 +97,40 @@ export var UserList = function UserList(_ref) {
             onClose: onClose,
             className: classes.popover
         },
-        users.length ? React.createElement(
-            Fragment,
+        users.length ? _react2.default.createElement(
+            _react.Fragment,
             null,
-            React.createElement(
-                Typography,
+            _react2.default.createElement(
+                _Typography2.default,
                 { variant: 'subtitle1' },
-                React.createElement(
+                _react2.default.createElement(
                     'em',
                     { className: classes.filter },
-                    i18n.t('Searching for "{{filter}}"', { filter: filter })
+                    _d2I18n2.default.t('Searching for "{{filter}}"', { filter: filter })
                 )
             ),
-            React.createElement(
-                List,
+            _react2.default.createElement(
+                _List2.default,
                 { dense: true, disablePadding: true, className: classes.list },
-                sortBy(users, [function (userName) {
-                    return userName.displayName.toLowerCase();
-                }]).map(function (u) {
-                    return React.createElement(
-                        ListItem,
+                users.map(function (u) {
+                    return _react2.default.createElement(
+                        _ListItem2.default,
                         {
                             button: true,
                             key: u.id,
                             onClick: onClick(u),
                             className: selectedUser && selectedUser.id === u.id ? classes.selected : null
                         },
-                        React.createElement(ListItemText, {
+                        _react2.default.createElement(_ListItemText2.default, {
                             primary: u.displayName + ' (' + u.userCredentials.username + ')'
                         })
                     );
                 })
             )
-        ) : React.createElement(
+        ) : _react2.default.createElement(
             'em',
             { className: classes.filter },
-            i18n.t('No results found for "{{filter}}"', { filter: filter })
+            _d2I18n2.default.t('No results found for "{{filter}}"', { filter: filter })
         )
     );
 };
@@ -116,13 +144,13 @@ UserList.defaultProps = {
 };
 
 UserList.propTypes = {
-    open: PropTypes.bool,
-    anchorEl: PropTypes.object,
-    users: PropTypes.array,
-    selectedUser: PropTypes.object,
-    filter: PropTypes.string,
-    onClose: PropTypes.func.isRequired,
-    onSelect: PropTypes.func.isRequired
+    open: _propTypes2.default.bool,
+    anchorEl: _propTypes2.default.object,
+    users: _propTypes2.default.array,
+    selectedUser: _propTypes2.default.object,
+    filter: _propTypes2.default.string,
+    onClose: _propTypes2.default.func.isRequired,
+    onSelect: _propTypes2.default.func.isRequired
 };
 
-export default withStyles(styles)(UserList);
+exports.default = (0, _styles.withStyles)(styles)(UserList);

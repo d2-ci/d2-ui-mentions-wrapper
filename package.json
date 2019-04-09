@@ -12,7 +12,7 @@
   },
   "scripts": {
     "prebuild": "npm run lint && rimraf ./build/*",
-    "build": "yarn localize && cross-env BABEL_ENV=es babel src --out-dir build --ignore spec.js",
+    "build": "npm run localize && babel src --copy-files --out-dir build --ignore spec.js",
     "lint": "eslint src/",
     "watch": "yarn build -- --watch",
     "test-ci": "jest --config=../../jest.config.js packages/mentions-wrapper",
@@ -45,6 +45,6 @@
     "husky": "^1.0.0-rc.4",
     "prettier": "^1.12.1"
   },
-  "version": "5.1.0",
+  "version": "5.3.1",
   "private": false
 }
