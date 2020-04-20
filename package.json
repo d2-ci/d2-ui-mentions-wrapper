@@ -45,6 +45,6 @@
     "husky": "^1.0.0-rc.4",
     "prettier": "^1.12.1"
   },
-  "version": "6.5.10",
+  "version": "6.5.11",
   "private": false
 }
