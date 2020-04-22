@@ -1,10 +1,12 @@
-'use strict';
+"use strict";
 
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
 
-var _MentionsWrapper = require('./MentionsWrapper');
+require("./locales/");
+
+var _MentionsWrapper = require("./MentionsWrapper");
 
 var _MentionsWrapper2 = _interopRequireDefault(_MentionsWrapper);
 
