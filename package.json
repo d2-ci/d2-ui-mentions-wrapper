@@ -43,6 +43,10 @@
     "husky": "^1.0.0-rc.4",
     "prettier": "^1.12.1"
   },
+  "sideEffects": [
+    "./src/locales/index.js",
+    "./src/locales/**/translations.json"
+  ],
   "version": "6.5.10",
   "private": false
 }
