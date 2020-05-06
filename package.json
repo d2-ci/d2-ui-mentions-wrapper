@@ -47,6 +47,6 @@
     "./src/locales/index.js",
     "./src/locales/**/translations.json"
   ],
-  "version": "7.0.0",
+  "version": "7.0.2",
   "private": false
 }
